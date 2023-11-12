@@ -1,19 +1,25 @@
-import { AccountData, UserDetails } from "./types";
+import { AccountData, AggregateData, TrendData, UserDetails } from "./types";
 
 export function searchUserAccount() {
   let controller: AbortController;
 
-  return function (val: string, pageNumber: number) {
+  return function (
+    val: string,
+    selectedBankAccounts: string[],
+    startDate: string,
+    endDate: string,
+    pageNumber: number
+  ) {
     if (controller && controller.signal) {
       controller.abort();
     }
 
-    if (!val) {
-      pageNumber = 1;
-      return Promise.resolve([]);
-    }
+    // if (!val) {
+    //   pageNumber = 1;
+    //   return Promise.resolve([]);
+    // }
 
-    controller = new AbortController();
+    // controller = new AbortController();
 
     return new Promise<AccountData[]>(async (resolve, reject) => {
       try {
@@ -22,10 +28,24 @@ export function searchUserAccount() {
           return;
         }
 
+        const params = new URLSearchParams({
+          keyword: val,
+          start: startDate,
+          end: endDate,
+          page: `${pageNumber}`,
+        });
+
+        // Append each account separately if `selectedBankAccounts` is an array of strings
+        selectedBankAccounts.forEach((account) => {
+          params.append("accounts", account);
+        });
+
+        console.log({ params });
+
         const data = await fetch(
-          `http://localhost:8080/search?keyword=${val}`,
+          `http://localhost:8080/search?${params.toString()}`,
           {
-            signal: controller.signal,
+            // signal: controller.signal,
           }
         );
 
@@ -34,6 +54,11 @@ export function searchUserAccount() {
         }
 
         const jsonData: AccountData[] = await data.json();
+        if (!jsonData) {
+          resolve([]);
+        }
+
+        console.log({ jsonData });
 
         resolve(jsonData);
       } catch (error) {
@@ -58,3 +83,66 @@ export async function fetchUserData() {
     return null;
   }
 }
+
+export const fetchAggregateData = async (
+  category: string,
+  startTime: string,
+  endTime: string
+) => {
+  const params = new URLSearchParams({
+    keyword: category,
+    start: startTime,
+    end: endTime,
+  });
+
+  try {
+    const response = await fetch(
+      `http://localhost:8080/aggregate?${params.toString()}`
+    );
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const jsonData: AggregateData = await response.json();
+    if (!jsonData) {
+      return null;
+    }
+
+    return jsonData;
+  } catch (error) {
+    console.error("Error fetching aggregate data", error);
+    return null;
+  }
+};
+
+export const fetchTrendData = async (
+  category: string,
+  startTime: string,
+  endTime: string
+) => {
+  const params = new URLSearchParams({
+    keyword: category,
+    start: startTime,
+    end: endTime,
+  });
+
+  try {
+    const response = await fetch(
+      `http://localhost:8080/trend?${params.toString()}`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+
+    const jsonData: TrendData[] = await response.json();
+    if (!jsonData) {
+      return [];
+    }
+
+    return jsonData;
+  } catch (error) {
+    console.error("Error fetching trend data", error);
+    return [];
+  }
+};

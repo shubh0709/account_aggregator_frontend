@@ -16,3 +16,16 @@ export interface UserDetails {
   keywords: string[];
   bankAccounts: string[];
 }
+
+export interface TrendData {
+  period: string;
+  total_credit: number;
+  total_debit: number;
+}
+
+export interface AggregateData {
+  total_credit: number;
+  total_debit: number;
+  category: string;
+  total: number;
+}
