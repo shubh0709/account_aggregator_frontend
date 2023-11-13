@@ -7,6 +7,7 @@ import { fetchUserData } from "./api";
 import Aggregate from "./Aggregate";
 import { UserDetails } from "./types";
 import Modal from "./Modal";
+import { start } from "repl";
 
 export default function Task2() {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
@@ -57,10 +58,15 @@ export default function Task2() {
 
   return (
     <div className="App">
+      <h5>
+        Accounts data from csv files has been updated to the database for axis,
+        hdfc, icici
+      </h5>
       <h3>
         Select date range and category (search bar) to see the Trends and
         Aggregates
       </h3>
+      <span style={{ height: "1rem" }} />
       <Modal>
         <DatePicker
           startDate={startDate}
@@ -69,12 +75,22 @@ export default function Task2() {
           setEndDate={setEndDate}
         />
       </Modal>
-      <input
-        type="text"
-        onChange={handleChange}
-        value={inputVal}
-        placeholder="Spend category search box"
-      />
+      <span style={{ height: "1rem" }} />
+      <div>
+        <span>{`start date: ${startDate === "" ? "none" : startDate}`}</span>
+        <span className={"horizontalSpace"} />
+        <span>{`end date: ${endDate === "" ? "none" : endDate}`}</span>
+      </div>
+      <span style={{ height: "2rem" }} />
+
+      <div>
+        <input
+          type="text"
+          onChange={handleChange}
+          value={inputVal}
+          placeholder="Spend category search box"
+        />
+      </div>
       <table
         ref={suggestionRef}
         className={"tableStyle"}
@@ -92,7 +108,6 @@ export default function Task2() {
             : null}
         </tbody>
       </table>
-
       <Trend category={category} startTime={startDate} endTime={endDate} />
       <Aggregate category={category} startTime={startDate} endTime={endDate} />
     </div>

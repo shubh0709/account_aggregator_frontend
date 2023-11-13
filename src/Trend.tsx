@@ -31,7 +31,7 @@ const TrendComponent = ({
     if (category) {
       fetchData(category);
     }
-  }, [category]);
+  }, [category, startTime, endTime]);
 
   return (
     <div>
@@ -53,8 +53,10 @@ const TrendComponent = ({
             <Line type="monotone" dataKey="total_debit" stroke="#82ca9d" />
           </LineChart>
         </>
+      ) : category !== "" ? (
+        <h3>Sorry no data is available for this date range</h3>
       ) : (
-        <></>
+        <h3>Please select a category from the search box</h3>
       )}
     </div>
   );

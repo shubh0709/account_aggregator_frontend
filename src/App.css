@@ -1,7 +1,6 @@
 .App {
   text-align: center;
   width: 100vw;
-  padding-top: 2rem;
 }
 
 tr td {
@@ -14,7 +13,7 @@ table {
 }
 
 .tableStyle {
-  margin-top: 3rem;
+  margin-top: 1rem;
 }
 
 .hideTable {
@@ -24,4 +23,16 @@ table {
 h3 {
   padding: 10px;
   margin: auto;
+}
+
+span {
+  display: inline-block;
+}
+
+.horizontalSpace {
+  width: 2rem;
+}
+
+.verticalSpace {
+  height: 5rem;
 }

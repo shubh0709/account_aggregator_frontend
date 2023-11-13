@@ -26,6 +26,7 @@ export default function Task1() {
 
   const handleChange = useCallback(async (e: any) => {
     const val = e.target.value;
+    setCustomError("");
     setInputVal(val);
     if (suggestionRef.current)
       suggestionRef.current.classList.remove("hideTable");
@@ -64,6 +65,7 @@ export default function Task1() {
   );
 
   useEffect(() => {
+    setCustomError("");
     getData(false);
   }, [startDate, endDate, selectedBankAccounts]);
 
@@ -81,6 +83,11 @@ export default function Task1() {
         pageNumber.current
       );
       setAccountData(matchedData);
+
+      if (pageNumber.current === 1 && matchedData.length === 0) {
+        console.log("came here");
+        setCustomError("No data exist for this date range");
+      }
 
       if (matchedData.length == 0) {
         setMoreDataToFetch(false);
@@ -132,16 +139,41 @@ export default function Task1() {
 
   return (
     <div className="App">
+      <h5>
+        Accounts data from csv files has been updated to the database for axis,
+        hdfc, icici
+      </h5>
       <h3>
         Select spend category from search box, you may add filters like bank
         accounts and have specific date range
       </h3>
-      <input
-        type="text"
-        onChange={handleChange}
-        value={inputVal}
-        placeholder="Spend category search box"
-      />
+      <span style={{ height: "3rem" }} />
+      <div>
+        <input
+          type="text"
+          onChange={handleChange}
+          value={inputVal}
+          placeholder="Spend category search box"
+        />
+        <table
+          ref={suggestionRef}
+          className={"tableStyle"}
+          onClick={clickedSuggestion}
+        >
+          <tbody>
+            {suggestions.length
+              ? suggestions.map((row, ind) => {
+                  return (
+                    <tr key={`${row}${ind}`}>
+                      <td>{row}</td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+      </div>
+      <span style={{ height: "1rem" }} />
       <Modal>
         <DatePicker
           startDate={startDate}
@@ -150,30 +182,19 @@ export default function Task1() {
           setEndDate={setEndDate}
         />
       </Modal>
+      <span style={{ height: "1rem" }} />
+      <div>
+        <span>{`start date: ${startDate === "" ? "none" : startDate}`}</span>
+        <span className={"horizontalSpace"} />
+        <span>{`end date: ${endDate === "" ? "none" : endDate}`}</span>
+      </div>
+      <span style={{ height: "2rem" }} />
       {userDetails?.bankAccounts ? (
         <MultiSelect
           setSelectedBankAccounts={setSelectedBankAccounts}
           accountName={userDetails.bankAccounts}
         />
       ) : null}
-
-      <table
-        ref={suggestionRef}
-        className={"tableStyle"}
-        onClick={clickedSuggestion}
-      >
-        <tbody>
-          {suggestions.length
-            ? suggestions.map((row, ind) => {
-                return (
-                  <tr key={`${row}${ind}`}>
-                    <td>{row}</td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
       {accountData.length ? (
         <table className="tableStyle">
           <thead>

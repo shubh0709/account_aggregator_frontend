@@ -25,13 +25,13 @@ const AggregateComponent = ({
     if (category) {
       fetchData(category);
     }
-  }, [category]);
+  }, [category, startTime, endTime]);
   return (
     <div>
       {aggregateData != null ? (
         <>
           <h2>Aggregate for: {category}</h2>
-          <p>Total: {aggregateData.total}</p>
+          <p>{`Total (Credit - Debit): ${aggregateData.total}`}</p>
           <p>Total Credit: {aggregateData.total_credit}</p>
           <p>Total Debit: {aggregateData.total_debit}</p>
         </>

@@ -40,8 +40,6 @@ export function searchUserAccount() {
           params.append("accounts", account);
         });
 
-        console.log({ params });
-
         const data = await fetch(
           `http://localhost:8080/search?${params.toString()}`,
           {
@@ -57,8 +55,6 @@ export function searchUserAccount() {
         if (!jsonData) {
           resolve([]);
         }
-
-        console.log({ jsonData });
 
         resolve(jsonData);
       } catch (error) {
@@ -76,7 +72,6 @@ export async function fetchUserData() {
   try {
     const data = await fetch("http://localhost:8080/userInfo");
     const jsonData: UserDetails = await data.json();
-    console.log({ jsonData });
     return jsonData;
   } catch (error) {
     console.log(error);
@@ -104,7 +99,12 @@ export const fetchAggregateData = async (
     }
 
     const jsonData: AggregateData = await response.json();
-    if (!jsonData) {
+
+    if (
+      !jsonData ||
+      (jsonData.total == 0 &&
+        (jsonData.total_credit == 0 || jsonData.total_debit == 0))
+    ) {
       return null;
     }
 
