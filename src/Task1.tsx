@@ -138,10 +138,13 @@ export default function Task1() {
   );
 
   return (
-    <div className="App">
+    <div>
       <h5>
         Accounts data from csv files has been updated to the database for axis,
         hdfc, icici
+      </h5>
+      <h5>
+        By default data from all your accounts and all dates will be shown
       </h5>
       <h3>
         Select spend category from search box, you may add filters like bank
@@ -149,11 +152,23 @@ export default function Task1() {
       </h3>
       <span style={{ height: "3rem" }} />
       <div>
+        <h5>following categories have been detected from all the accounts</h5>
+        {userDetails?.keywords.map((val) => (
+          <>
+            <span>{`${val}`}</span>
+            <span style={{ width: "1rem" }} />
+          </>
+        ))}
+      </div>
+      <span style={{ height: "3rem" }} />
+
+      <div>
         <input
+          className="searchBox"
           type="text"
           onChange={handleChange}
           value={inputVal}
-          placeholder="Spend category search box"
+          placeholder="Type to select category"
         />
         <table
           ref={suggestionRef}

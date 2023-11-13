@@ -57,38 +57,36 @@ export default function Task2() {
   );
 
   return (
-    <div className="App">
+    <div>
       <h5>
         Accounts data from csv files has been updated to the database for axis,
         hdfc, icici
       </h5>
+      <h5>
+        By default data from all your accounts and all dates will be shown
+      </h5>
+
       <h3>
         Select date range and category (search bar) to see the Trends and
         Aggregates
       </h3>
-      <span style={{ height: "1rem" }} />
-      <Modal>
-        <DatePicker
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-        />
-      </Modal>
-      <span style={{ height: "1rem" }} />
       <div>
-        <span>{`start date: ${startDate === "" ? "none" : startDate}`}</span>
-        <span className={"horizontalSpace"} />
-        <span>{`end date: ${endDate === "" ? "none" : endDate}`}</span>
+        <h5>following categories have been detected from all the accounts</h5>
+        {userDetails?.keywords.map((val) => (
+          <>
+            <span>{`${val}`}</span>
+            <span style={{ width: "1rem" }} />
+          </>
+        ))}
       </div>
       <span style={{ height: "2rem" }} />
-
       <div>
         <input
+          className="searchBox"
           type="text"
           onChange={handleChange}
           value={inputVal}
-          placeholder="Spend category search box"
+          placeholder="Type to select category"
         />
       </div>
       <table
@@ -108,7 +106,24 @@ export default function Task2() {
             : null}
         </tbody>
       </table>
+      <span style={{ height: "1rem" }} />
+      <Modal>
+        <DatePicker
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
+      </Modal>
+      <span style={{ height: "1rem" }} />
+      <div>
+        <span>{`start date: ${startDate === "" ? "none" : startDate}`}</span>
+        <span className={"horizontalSpace"} />
+        <span>{`end date: ${endDate === "" ? "none" : endDate}`}</span>
+      </div>
+      <span style={{ height: "1rem" }} />
       <Trend category={category} startTime={startDate} endTime={endDate} />
+      <span style={{ height: "2rem" }} />
       <Aggregate category={category} startTime={startDate} endTime={endDate} />
     </div>
   );

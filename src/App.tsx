@@ -9,7 +9,11 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
 export default function App() {
-  return <Tabs />;
+  return (
+    <div className="App">
+      <Tabs />
+    </div>
+  );
 }
 
 function Tabs() {

@@ -34,7 +34,9 @@ const TrendComponent = ({
   }, [category, startTime, endTime]);
 
   return (
-    <div>
+    <div
+      className={"trendComponent"}
+    >
       {trendData.length > 0 ? (
         <>
           <h2>Trend for: {category}</h2>
