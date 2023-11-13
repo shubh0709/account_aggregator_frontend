@@ -70,7 +70,7 @@ export function searchUserAccount() {
 
 export async function fetchUserData() {
   try {
-    const data = await fetch("${process.env.REACT_APP_SERVER_URL}/userInfo");
+    const data = await fetch(`${process.env.REACT_APP_SERVER_URL}/userInfo`);
     const jsonData: UserDetails = await data.json();
     return jsonData;
   } catch (error) {
