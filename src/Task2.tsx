@@ -89,23 +89,25 @@ export default function Task2() {
           placeholder="Type to select category"
         />
       </div>
-      <table
-        ref={suggestionRef}
-        className={"tableStyle"}
-        onClick={clickedSuggestion}
-      >
-        <tbody>
-          {suggestions.length
-            ? suggestions.map((row, ind) => {
-                return (
-                  <tr key={`${row}${ind}`}>
-                    <td>{row}</td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
+      <div className={"tableContainer"}>
+        <table
+          ref={suggestionRef}
+          className={"styled-table"}
+          onClick={clickedSuggestion}
+        >
+          <tbody>
+            {suggestions.length
+              ? suggestions.map((row, ind) => {
+                  return (
+                    <tr key={`${row}${ind}`}>
+                      <td>{row}</td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+      </div>
       <span style={{ height: "1rem" }} />
       <Modal>
         <DatePicker

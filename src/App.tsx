@@ -28,8 +28,8 @@ function Tabs() {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Task 1" value="1" />
-            <Tab label="Task 2" value="2" />
+            <Tab label="Task 1" value="1" sx={{ fontWeight: "bold" }} />
+            <Tab label="Task 2" value="2" sx={{ fontWeight: "bold" }} />
           </TabList>
         </Box>
         <TabPanel value="1">

@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback, useRef } from "react";
 import { AccountData, UserDetails } from "./types";
 import { fetchUserData, searchUserAccount } from "./api";
 import fuzzysort from "fuzzysort";
-import MultiSelect from "./MutliSelect";
+import MultiSelect from "./MultiSelectChips";
 import DatePicker from "./DatePicker";
 import Modal from "./Modal";
 
@@ -17,7 +17,9 @@ export default function Task1() {
   const [endDate, setEndDate] = useState<string>("");
   const [inputVal, setInputVal] = useState<string>("");
   const pageNumber = useRef(1);
-  const [selectedBankAccounts, setSelectedBankAccounts] = useState([]);
+  const [selectedBankAccounts, setSelectedBankAccounts] = useState<string[]>(
+    []
+  );
   const intersectionRef = useRef<IntersectionObserver>();
   const suggestionRef = useRef<HTMLTableElement | null>(null);
   const [loading, setLoading] = useState(false);
@@ -35,6 +37,7 @@ export default function Task1() {
   const getUserData = async () => {
     const response = await fetchUserData();
     setUserDetails(response);
+    if (response !== null) setSelectedBankAccounts(response?.bankAccounts);
   };
 
   useEffect(() => {
@@ -162,17 +165,18 @@ export default function Task1() {
       </div>
       <span style={{ height: "3rem" }} />
 
-      <div>
-        <input
-          className="searchBox"
-          type="text"
-          onChange={handleChange}
-          value={inputVal}
-          placeholder="Type to select category"
-        />
+      <input
+        className="searchBox"
+        type="text"
+        onChange={handleChange}
+        value={inputVal}
+        placeholder="Type to select category"
+      />
+
+      <div className={"tableContainer"}>
         <table
           ref={suggestionRef}
-          className={"tableStyle"}
+          className={"styled-table"}
           onClick={clickedSuggestion}
         >
           <tbody>
@@ -205,51 +209,59 @@ export default function Task1() {
       </div>
       <span style={{ height: "2rem" }} />
       {userDetails?.bankAccounts ? (
-        <MultiSelect
-          setSelectedBankAccounts={setSelectedBankAccounts}
-          accountName={userDetails.bankAccounts}
-        />
+        <div className="multiSelectContainer">
+          <MultiSelect
+            setSelectedBankAccounts={setSelectedBankAccounts}
+            accountName={userDetails.bankAccounts}
+          />
+        </div>
       ) : null}
+      <span style={{ height: "2rem" }} />
+
       {accountData.length ? (
-        <table className="tableStyle">
-          <thead>
-            <tr>
-              <th>AccountID</th>
-              <th>Date</th>
-              <th>Description</th>
-              <th>Debit</th>
-              <th>Credit</th>
-              <th>Balance</th>
-            </tr>
-          </thead>
-          <tbody>
-            {accountData.map((data, ind) => {
-              return (
-                <tr
-                  key={ind}
-                  ref={
-                    accountData.length - 1 === ind ? attachIntersection : null
-                  }
-                >
-                  <td>{data.AccountID || "N/A"}</td>
-                  <td>{data.Date}</td>
-                  <td>{data.Description}</td>
-                  <td>
-                    {data.Debit.Valid ? data.Debit.Float64.toFixed(2) : "N/A"}
-                  </td>
-                  <td>
-                    {data.Credit.Valid ? data.Credit.Float64.toFixed(2) : "N/A"}
-                  </td>
-                  <td>
-                    {data.Balance.Valid
-                      ? data.Balance.Float64.toFixed(2)
-                      : "N/A"}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className={"tableContainer"}>
+          <table className="styled-table">
+            <thead>
+              <tr>
+                <th>AccountID</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Debit</th>
+                <th>Credit</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody>
+              {accountData.map((data, ind) => {
+                return (
+                  <tr
+                    key={ind}
+                    ref={
+                      accountData.length - 1 === ind ? attachIntersection : null
+                    }
+                  >
+                    <td>{data.AccountID || "N/A"}</td>
+                    <td>{data.Date}</td>
+                    <td>{data.Description}</td>
+                    <td>
+                      {data.Debit.Valid ? data.Debit.Float64.toFixed(2) : "N/A"}
+                    </td>
+                    <td>
+                      {data.Credit.Valid
+                        ? data.Credit.Float64.toFixed(2)
+                        : "N/A"}
+                    </td>
+                    <td>
+                      {data.Balance.Valid
+                        ? data.Balance.Float64.toFixed(2)
+                        : "N/A"}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       ) : null}
       {loading && <h3>{"LOADING....."}</h3>}
       {customError !== "" && <h3 className={"customError"}>{customError}</h3>}

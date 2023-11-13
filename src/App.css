@@ -1,19 +1,7 @@
 .App {
   text-align: center;
   width: 100vw;
-}
-
-tr td {
-  border: 1px solid;
-  cursor: pointer;
-}
-
-table {
-  margin: auto;
-}
-
-.tableStyle {
-  margin-top: 1rem;
+  background-color: white;
 }
 
 .hideTable {
@@ -35,12 +23,6 @@ span {
 
 .verticalSpace {
   height: 5rem;
-}
-
-input {
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.1);
-  border: 0.5px solid blacks;
 }
 
 .trendComponent {
@@ -70,6 +52,8 @@ input {
   border: 2px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  /* background-color: rgba(255, 255, 255, 1); */
+  background-color: white;
 }
 
 .searchBox:focus {
@@ -81,3 +65,86 @@ input {
 .searchBox::placeholder {
   color: #999;
 }
+
+.styled-table {
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  min-width: 400px;
+  /* width: 100%; */
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+.styled-table tr:hover {
+  cursor: pointer;
+  background-color: #ccc !important;
+}
+
+.tableContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.multiSelectContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.searchBoxSuggestionContainer {
+  width: 100%;
+  background-color: red;
+  display: flex;
+  justify-content: center;
+}
+
+.searchBoxContainer {
+  background-color: #009879;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.searchBoxContainer i {
+  /* position: absolute; */
+  /* right: 0%; */
+  top: 50%;
+  /* transform: translateY(-50%); */
+}
+
+.fas.fa-search {
+  color: #333;
+  /* font-size: 20px; */
+}
+
+/* Adjust the styles as needed */
