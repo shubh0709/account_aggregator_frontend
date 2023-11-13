@@ -41,7 +41,7 @@ export function searchUserAccount() {
         });
 
         const data = await fetch(
-          `http://localhost:8080/search?${params.toString()}`,
+          `${process.env.REACT_APP_SERVER_URL}/search?${params.toString()}`,
           {
             // signal: controller.signal,
           }
@@ -70,7 +70,7 @@ export function searchUserAccount() {
 
 export async function fetchUserData() {
   try {
-    const data = await fetch("http://localhost:8080/userInfo");
+    const data = await fetch("${process.env.REACT_APP_SERVER_URL}/userInfo");
     const jsonData: UserDetails = await data.json();
     return jsonData;
   } catch (error) {
@@ -92,7 +92,7 @@ export const fetchAggregateData = async (
 
   try {
     const response = await fetch(
-      `http://localhost:8080/aggregate?${params.toString()}`
+      `${process.env.REACT_APP_SERVER_URL}/aggregate?${params.toString()}`
     );
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status}`);
@@ -128,7 +128,7 @@ export const fetchTrendData = async (
 
   try {
     const response = await fetch(
-      `http://localhost:8080/trend?${params.toString()}`
+      `${process.env.REACT_APP_SERVER_URL}/trend?${params.toString()}`
     );
 
     if (!response.ok) {
